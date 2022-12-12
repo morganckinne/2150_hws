@@ -1,0 +1,107 @@
+C012    000    jmp     start        skip around the variables
+0000    001    i       dw     0     int i
+0000    002    x       dw     0     int x
+0080    003    a       dw     0     int a[]
+000A    004    n       dw     10    size
+0000    005    zero    dw     0
+0001    006    one     dw     1
+0000    007    current dw
+0000    008    previousdw
+3000    009    loadit  dw     3000
+4000    00A    storeit dw     4000
+0000    00B    temp     dw      0
+0009    00C    xinit    dw      9
+0000    00D
+0000    00E
+0000    00F
+0000    010
+0000    011
+3005    012    start    load    zero
+4001    013             store   i       store i as 0
+3004    014    loop1    load    n       if(i<0) -> exit
+6001    015             sub     i
+E02A    016             jumpl   exit -> if less than, jump to end of loop ---------------------------
+D02A    017             jumpe   exit -> if accumulator 0, jump to end of loop -----------------------
+1000    018             readH   temp
+400B    019             store   temp
+300A    01A             load    store
+5003    01B             add     a
+5001    01C             add     i
+401F    01D             store   doit
+300B    01E             load    temp
+b000    01F     doit            0
+3001    020             load    i
+5006    021             add     one     i++
+4001    022             store   i
+C014    023             jmp     jmp back to loop-----------------------------------------------------
+C02A    024             jmp     to next loop---------------------------------------------------------
+0000    025
+0000    026
+0000    027
+0000    028
+0000    029
+3005    02A             load    0
+4001    02B             store   i
+3004    02C     loopi   load    n
+6001    02D             sub     i
+E05A    02E             jmpl    jump to before print loop start-------------------------------------
+300C    02F             load    xinit
+4002    030             store   x as xinit
+3002    031     loopx   load    x
+6001    032             sub     i
+E056    033             jmpl    less then, jump to line where i increases----------------------------
+D056    034             jmpe    accumulator 0, xit
+3009    035             load    loadit loads a[x]
+5003    036             add     a
+5002    037             add     x
+4039    038             store   doit
+b000    039    doit     dw      0
+4007    03A             store   current
+3009    03B             load    loadit loads a[x--]
+5003    03C             add     a
+5002    03D             add     x
+6006    03E             sub     one
+4040    03F             store   doit //confused --> should I be storing doit at 40 or 41
+b000    040    doit     dw      0
+4008    041             store   previous
+3008    042             load    previous
+6007    043             sub     current
+E052    044             jmpl    jump less than --> to line where x increases--------------------------
+300A    045             load    storeit a[x] = current, pushing it down
+5003    046             add     a
+5002    047             add     x
+6006    048             sub     one
+404B    049             store   doit
+3007    04A             load    current
+b000    04B    doit
+300A    04C             load    storeit
+5003    04D             add     a
+5002    04E             add     x
+4051    04F             store   doit
+3008    050             load    previous
+b000    051    doit
+3002    052             load    x
+6006    053             sub     one
+4002    054             store   x
+C031    055             jump    to loopx
+3001    056             load    i
+5006    057             add     one
+4001    058             store   i
+C02C    059             jump    to loopi------------------------------------------------------------------------------
+3005    05A             load    zero
+4001    05B             store   i       store i as 0
+3002    05C     loop3   load    n       if(i>=n) -> exit print loop
+6001    05D             sub     i
+E06A    05E             jmpl    exit ----------------------------------------------------------------------------------
+b000    05F             jmpe    exit-----------------------------------------------------------------------------------
+3009    060             load    load //should I be loading load(009) or current(007)
+5003    061             add     a
+5001    062             add     i
+4064    063             store   doit
+b000    064     doit            0
+1800    065             printH
+3001    066             load    i
+5006    067             add     one
+4001    068             store   i
+C05C    069             jmp to loop3
+0000    06A             halt

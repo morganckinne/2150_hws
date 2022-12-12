@@ -1,0 +1,21 @@
+C006    000     jmp     skip vars
+0000    001     i       0
+0013    002     n       size
+0001    003     one     1
+0000    004     zero    0
+3000    005     load    loadit
+3004    006             load    zero
+4001    007             store   i
+3002    008     start   load    n
+6001    009             sub     i
+E014    00A             jmpl (jump to halt)
+3005    00B             load    loadit
+5001    00C             add     i
+400E    00D             store   doit
+b000    00E     doit
+1800    00F             printH
+3001    010             load    i
+5003    011             add     one
+4001    012             store   i
+C008    013             jump    jump to start
+0000    014     halt

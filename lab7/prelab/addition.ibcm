@@ -1,0 +1,38 @@
+C00A	000		jmp	        start	        jump around the variables
+0000	001     i		    dw	    0	    int i
+0000	002     x		    dw	    0	    int x
+0000	003     y		    dw	    0	    int y
+0000	004     s		    dw	    0	    int sum
+0001	005     one		    dw	    1
+0000	006     zero	    dw	    0
+0000	007
+0000	008
+0000	009
+1000	00A     start	    readH		read i
+4001	00B 	store       i
+1000	00C 	            readH		read x
+4002	00D		store	    x
+1000	00E                 readH		read y
+4003	00F		store	    y
+3006	010     sum		    load	    zero	s = 0
+4004	011 	store	    s	0
+3004	012		load	    s
+5001	013		add	i	    s+=i
+4004	014		store	    s
+3004	015		load	    s
+5002	016		add	x	    s+=x
+4004	017		store	    s
+3004	018		load	    s
+5003	019		add	y	    s+=y
+4004	01A		store	    s
+3004	01B		load	    s
+1800    01C     printH      s           print s
+D01F    01D     jmpe                    if(sum == 0) jump to end
+C00A    01E     jmp         restart     restarts the program if sum is 0
+3001    01F     load        i
+1800    020     print                   print i
+3002    021     load        x
+1800    022     print                   print x
+3003    023     load        y
+1800    024     print                   print y
+0000	025		halt		            halts program

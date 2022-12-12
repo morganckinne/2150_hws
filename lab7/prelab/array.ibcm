@@ -1,0 +1,64 @@
+C00A    000             jmp     start   skip around the variables
+0000    001     i       dw      0       int i
+0000    002     n       dw      0       int size
+0050    003     a       dw      0       int a[]
+0000    004     temp    dw      0       int temp var
+0000    005     zero    dw      0
+0001    006     one     dw      1
+3000    007     loadit  dw      3000
+4000    008     storeit dw      4000
+0000    009     x       dw      0
+1000    00A     start   readH           read array size
+4002    00B             store   n
+3005    00C             load    zero
+4001    00D             store   i       store i as 0
+3002    00E     loop1   load    n       if(i<0) -> exit
+6001    00F             sub     i
+E01E    010             jumpl   exit
+D01E    011             jumpe   exit
+1000    012             readH   temp
+4004    013             store   temp
+3008    014             load    store
+5003    015             add     a
+5001    016             add     i
+4019    017             store   doit
+3004    018             load    temp
+b000    019     doit            0
+3001    01A             load    i
+5006    01B             add     one     i++
+4001    01C             store   i
+C00E    01D             jmp     jmp back to loop
+3005    01E             load    zero
+4001    01F             store   i       store i as 0
+3002    020     loop2   load    n       if(i>=n) -> exit
+6001    021             sub     i
+E02E    022             jmpl    exit
+D02E    023             jmpe    exit
+3007    024             load    load
+5003    025             add     a
+5001    026             add     i
+4028    027             store   doit
+b000    028     doit            0
+1800    029             printH
+3001    02A             load    i
+5006    02B             add     one     i++
+4001    02C             store   i
+C020    02D             jmp     jmp back to loop
+3004    02E             load    n
+6006    02F             sub     one
+4001    030             store   i       store i as n--
+3002    031     loop3   load    n       if(i<0) -> exit
+3001    032             load    i
+E03F    033             jmpl    exit --> go to halt
+b000    034     nop
+3007    035             load    load
+5003    036             add     a
+5001    037             add     i
+4039    038             store   doit
+b000    039     doit            0
+1800    03A             printH
+3001    03B             load    i
+6006    03C             sub     one     i++
+4001    03D             store   i
+C030    03E             jmp     jmp back to loop
+0000    03F     halt
